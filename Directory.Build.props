@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!--
+    全仓库统一构建设置（P0 启动基线）。
+
+    - LangVersion 7.3：长期锁定语言版本，禁止使用 C# 8+ 语法（nullable 引用类型、
+      file-scoped namespace、switch 表达式、record、init 等）。
+    - Platforms / PlatformTarget x64：插件与 LightTools / SolidWorks 桥接必须为 64 位进程。
+    - Deterministic：可复现构建，便于问题追溯与产物比对。
+    - Nullable / ImplicitUsings：显式关闭，避免在不同 SDK 版本下行为漂移。
+  -->
+  <PropertyGroup>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <Deterministic>true</Deterministic>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+  </PropertyGroup>
+</Project>

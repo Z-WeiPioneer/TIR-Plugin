@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <RootNamespace>TirPlugin.Core</RootNamespace>
+    <AssemblyName>TirPlugin.Core</AssemblyName>
+    <Version>0.1.0</Version>
+    <Authors>光健康实验室</Authors>
+    <Description>指定光束角 TIR 透镜自动设计插件 · 核心数据契约与算法库（无 WinForms / COM / Guipc 依赖）</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>

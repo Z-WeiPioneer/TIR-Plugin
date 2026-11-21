@@ -1,0 +1,74 @@
+# ===== 构建产物 =====
+[Bb]in/
+[Oo]bj/
+artifacts/
+out/
+runs/
+*.binlog
+
+# ===== Visual Studio / Rider / VS Code =====
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.DotSettings.user
+*.VC.db
+*.VC.opendb
+_ReSharper*/
+
+# ===== 测试与覆盖率 =====
+[Tt]est[Rr]esult*/
+TestResults/
+*.trx
+*.coverage
+*.coverage.*
+coverage/
+*.testsettings
+
+# ===== NuGet =====
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+*.nuget.props
+*.nuget.targets
+
+# ===== 编译中间文件（禁止提交二进制，见 AGENTS.md 第 6 节）=====
+*.dll
+*.exe
+*.pdb
+*.obj
+*.ilk
+*.cache
+*.tlog
+
+# ===== 许可证 / 密钥 / 证书（红线，禁止入库）=====
+*.lic
+*.license
+*.licence
+*.key
+*.pfx
+*.snk
+*.pem
+secrets.json
+.env
+.env.*
+
+# ===== 光学 / CAD 运行输出（由运行生成，不入库）=====
+*.lts
+*.step
+*.stp
+*.sldprt
+*.sldasm
+*.ies
+*.ldt
+
+# ===== 操作系统垃圾文件 =====
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store

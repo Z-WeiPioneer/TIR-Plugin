@@ -1,0 +1,70 @@
+name: CI
+
+# P0 启动基线 CI：windows-latest 上还原 / 构建 / 测试 TirPlugin.Core.Tests（net48 / x64）。
+# 不依赖 TirPlugin.sln（sln 只服务 VS 与本地 MSBuild 方式）；
+# 不启动 LightTools / SolidWorks（CI 环境没有，也不允许无人守候自动操作）。
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+  # GitHub Actions 工作区可能位于非系统盘，.NET Framework 会把 LoadFrom 判为远程；
+  # 测试宿主需要该开关才能加载 NUnit 适配器（与本地 D: 工作区同样的处理）。
+  COMPLUS_LoadFromRemoteSources: "1"
+
+jobs:
+  build-test:
+    name: Build & Test (net48, x64)
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK 8.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Show toolchain
+        run: |
+          dotnet --info
+          dotnet --list-sdks
+
+      - name: Verify .NET Framework 4.8 reference assemblies
+        shell: pwsh
+        run: |
+          $ref = Join-Path ${env:ProgramFiles(x86)} 'Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\mscorlib.dll'
+          if (Test-Path $ref) {
+            Write-Host "OK: $ref"
+          } else {
+            Write-Warning "未找到 .NET Framework 4.8 参考程序集：$ref（构建 net48 将失败，需要 VS 2022 的 .NET 桌面工作负载）"
+          }
+
+      - name: Restore
+        run: dotnet restore tests/TirPlugin.Core.Tests/TirPlugin.Core.Tests.csproj
+
+      - name: Build (Release)
+        run: dotnet build tests/TirPlugin.Core.Tests/TirPlugin.Core.Tests.csproj -c Release --no-restore
+
+      - name: Test (Release)
+        run: dotnet test tests/TirPlugin.Core.Tests/TirPlugin.Core.Tests.csproj -c Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
+          if-no-files-found: warn
+          retention-days: 14

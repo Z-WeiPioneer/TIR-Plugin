@@ -60,6 +60,19 @@ jobs:
       - name: Test (Release)
         run: dotnet test tests/TirPlugin.Core.Tests/TirPlugin.Core.Tests.csproj -c Release --no-build --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
+      - name: Verify test count (guard against zero-test green)
+        shell: pwsh
+        run: |
+          $trx = Get-ChildItem TestResults -Filter *.trx | Select-Object -First 1
+          if (-not $trx) { throw "No trx file found in TestResults/" }
+          [xml]$doc = Get-Content $trx.FullName
+          $total = [int]$doc.TestRun.ResultSummary.Counters.total
+          $passed = [int]$doc.TestRun.ResultSummary.Counters.passed
+          Write-Host "Tests: total=$total passed=$passed"
+          if ($total -lt 4 -or $passed -ne $total) {
+            throw "Expected at least 4/4 passing tests, got $passed/$total"
+          }
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

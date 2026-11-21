@@ -69,7 +69,7 @@ dotnet test    TirPlugin.sln -c Release
 | 本机 `dotnet restore` | ✅ 已执行：两份项目均还原成功（2026-11-21 22:02） |
 | 本机 `dotnet build`（测试项目 + sln） | ✅ 已执行：0 警告 0 错误（2026-11-21 22:02 / 22:05） |
 | 本机 `dotnet test` | ✅ 已执行：4/4 通过（需 `COMPLUS_LoadFromRemoteSources=1`，2026-11-21 22:03 / 22:05） |
-| GitHub Actions CI | ❌ **未执行**：无远端仓库；`ci.yml` 已内置同一环境变量 |
+| GitHub Actions CI | ✅ **已通过**：run [44916173463](https://github.com/Z-WeiPioneer/TIR-Plugin/actions/runs/44916173463)，含“测试数 ≥4/4”守卫；首次 run [44914649453](https://github.com/Z-WeiPioneer/TIR-Plugin/actions/runs/44914649453) 也成功 |
 | 补充源码级预验证（**不是**构建验收） | ⚠️ 已由正式构建/测试取代；保留记录见 [`../ci/P0-01_验证记录.md`](../ci/P0-01_验证记录.md) |
 
 > 注意：本工作区在 D: 盘时，.NET Framework 会把 `Assembly.LoadFrom` 判为远程，未设置 `COMPLUS_LoadFromRemoteSources=1` 时会出现“未能从 NUnit3.TestAdapter.dll 加载扩展”，这是测试宿主环境问题，不是测试代码失败。CI 工作流已内置该变量。

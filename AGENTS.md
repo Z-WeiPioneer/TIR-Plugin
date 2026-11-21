@@ -2,7 +2,7 @@
 
 > 本文件是本仓库的最高优先级协作约定（AI 与人类共同遵守）。**先读本文件，再读 `docs/`，然后动手。**
 >
-> 位置说明：本文件当前位于 P0 启动基线包（`P0_启动基线/AGENTS.md`）；项目代码仓库根为 `P0_启动基线/repo/`，初始化 Git 时应复制到 `repo/AGENTS.md` 并随代码维护。下文命令如无特别说明，均在仓库根（`repo/`）下执行。
+> 位置说明：本文件是 `repo/` 仓库根副本；P0 基线原文为 `../AGENTS.md`。以本文件为仓库内最高优先级约定，基线变更时同步。
 
 ## 1. 项目一句话与当前阶段
 
@@ -10,7 +10,7 @@
 
 **事实基线（不得改写）**：
 - 已安装：LightTools 8.7.0、SolidWorks 2025 SP0；.NET Framework 4.8（Release 533509）；.NET SDK 8.0.428；VS 2022 Build Tools（MSBuild 17.14.60）；Git 2.56.1。
-- 本机已完成 `dotnet restore/build/test`：Core + Tests 构建 0 警告 0 错误，4/4 测试通过（2026-11-21 22:06）；CI 尚未执行（无远端仓库）。
+- 本机已完成 `dotnet restore/build/test`：Core + Tests 构建 0 警告 0 错误，4/4 测试通过（2026-11-21 22:06）；**GitHub Actions CI 首跑已通过**（run 44916173463，含“测试数 ≥4/4”守卫）。
 - **本工作区在 D: 盘时，.NET Framework 会把 `Assembly.LoadFrom` 判为远程**，测试宿主需设置 `COMPLUS_LoadFromRemoteSources=1`；CI 已内置该环境变量。未设置时表现为“未从 NUnit3.TestAdapter.dll 加载扩展”，不是测试代码失败。
 - Guipc 明文资产已获二次开发许可，下一阶段直接封装；**P0 启动基线阶段不引用 Guipc DLL**，只用接口与数据契约占位。
 - LightTools / SolidWorks 的自动化操作必须人工守候、串行执行；P0 阶段禁止自动操作。
